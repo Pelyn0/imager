@@ -33,3 +33,7 @@ button.tool {
 #uploadImage1,#uploadImage2 {
     display: none;
 }
+
+.greyed {
+    filter: grayscale(1);
+}

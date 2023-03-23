@@ -6,6 +6,7 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatInputModule} from '@angular/material/input';
 import {MatIconModule} from '@angular/material/icon';
 import { FormsModule } from "@angular/forms";
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @NgModule({
     exports:[ImageViewerComponent],
@@ -18,7 +19,8 @@ import { FormsModule } from "@angular/forms";
       MatDividerModule,
       MatInputModule,
       MatIconModule,
-      FormsModule
+      FormsModule,
+      MatSlideToggleModule
     ],
   })
   export class AllModule { }

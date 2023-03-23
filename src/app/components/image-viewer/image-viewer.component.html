@@ -18,17 +18,23 @@
     </button>
   </div>
   <div>
-    <button class="tool" mat-raised-button (click)="swap()">
-      <mat-icon>compare_arrows</mat-icon> Swap
-    </button>
-  </div>
-  <div>
     <button class="tool" mat-raised-button (click)="uploadImage(1)">
       <mat-icon>cloud_upload</mat-icon> Upload image 1
     </button>
     <button class="tool" mat-raised-button (click)="uploadImage(2)">
       <mat-icon>cloud_upload</mat-icon> Upload image 2
     </button>
+  </div>
+  <div>
+    <button class="tool" mat-raised-button (click)="swap()">
+      <mat-icon>compare_arrows</mat-icon> Swap
+    </button>
+    <mat-slide-toggle
+      [checked]="isGrayed"
+      (change)="isGrayed = !isGrayed"
+      color="primary"
+      >Gray images</mat-slide-toggle
+    >
   </div>
   <div class="random-images">
     <mat-form-field class="search tool">
@@ -37,7 +43,14 @@
     </mat-form-field>
     <button
       class="tool"
-      [disabled]="admission > 100 || admission < 0 ? true : false"
+      [disabled]="
+        admission > 100 ||
+        admission < 0 ||
+        !photos[0].urls.small ||
+        !photos[1].urls.small
+          ? true
+          : false
+      "
       mat-raised-button
       (click)="compare()"
     >
@@ -45,7 +58,12 @@
     </button>
   </div>
   <div>
-    <button class="tool" mat-raised-button (click)="save()">
+    <button
+      class="tool"
+      mat-raised-button
+      [disabled]="isCompared ? false : true"
+      (click)="save()"
+    >
       <mat-icon>save</mat-icon> Save
     </button>
   </div>
@@ -65,8 +83,16 @@
 />
 
 <div class="images">
-  <img id="image1" src="{{ photos[0].urls.small }}" />
-  <img id="image2" src="{{ photos[1].urls.small }}" />
-
-  <img id="result" />
+  <img
+    id="image1"
+    [ngClass]="isGrayed ? 'greyed' : null"
+    src="{{ photos[0].urls.small }}"
+  />
+  <img
+    id="image2"
+    [ngClass]="isGrayed ? 'greyed' : null"
+    src="{{ photos[1].urls.small }}"
+  />
+  <div id="result"></div>
+  <!--<img id="result" src="{{ result }}" />-->
 </div>
