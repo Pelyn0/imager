@@ -10,7 +10,7 @@ import { Random } from 'unsplash-js/dist/methods/photos/types';
 export class ImageViewerComponent implements  OnInit {
   searchText: string = "";
   admission: number = 50;
-  photos: Random[] = [];
+  photos: Random[] = [{urls:{small:""}} as Random, {urls:{small:""}} as Random];
   unsplash = createApi({
     accessKey: 'tgikrpUprzc79ynmrCWe38qzTblYH63k2JPhqENuJUg',
   });
@@ -30,7 +30,39 @@ export class ImageViewerComponent implements  OnInit {
     this.photos.reverse();
   }
 
-  save(){
+  compare() {
+    const resultImage = document.querySelector("#result") as HTMLImageElement;
+    const file = (document.querySelector("input[type=file]") as HTMLInputElement)!.files![0];
+    const reader = new FileReader();
 
+    reader.addEventListener(
+      "load",
+      () => {
+        resultImage!.src = reader.result as string;
+      },
+      false
+    );
+  
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  }
+
+  uploadImage(number: number) {
+    (document.querySelector(`#uploadImage${number}`) as HTMLInputElement)!.click();
+  }
+
+  onUploadImageChange($event: any, number: number) {
+    const file = $event.target!.files![0];
+    
+    const reader = new FileReader();
+    reader.onload = () => this.photos[number-1]!.urls.small = reader.result as string;
+    
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  }
+
+  save(){
   }
 }

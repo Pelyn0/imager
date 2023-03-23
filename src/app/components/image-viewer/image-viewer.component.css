@@ -22,4 +22,14 @@ button.tool {
     margin: 20px;
     display: flex;
     justify-content: space-evenly;
+    align-items: center;
+}
+
+.images img {
+    max-width: 30vw;
+    max-height: 80vh;
+}
+
+#uploadImage1,#uploadImage2 {
+    display: none;
 }

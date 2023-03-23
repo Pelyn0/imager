@@ -23,10 +23,10 @@
     </button>
   </div>
   <div>
-    <button class="tool" mat-raised-button (click)="save()">
+    <button class="tool" mat-raised-button (click)="uploadImage(1)">
       <mat-icon>cloud_upload</mat-icon> Upload image 1
     </button>
-    <button class="tool" mat-raised-button (click)="save()">
+    <button class="tool" mat-raised-button (click)="uploadImage(2)">
       <mat-icon>cloud_upload</mat-icon> Upload image 2
     </button>
   </div>
@@ -39,7 +39,7 @@
       class="tool"
       [disabled]="admission > 100 || admission < 0 ? true : false"
       mat-raised-button
-      (click)="save()"
+      (click)="compare()"
     >
       <mat-icon>compare</mat-icon> Compare
     </button>
@@ -53,6 +53,20 @@
 
 <mat-divider></mat-divider>
 
+<input
+  id="uploadImage1"
+  type="file"
+  (change)="onUploadImageChange($event, 1)"
+/>
+<input
+  id="uploadImage2"
+  type="file"
+  (change)="onUploadImageChange($event, 2)"
+/>
+
 <div class="images">
-  <img *ngFor="let photo of photos" src="{{ photo.urls.small }}" />
+  <img id="image1" src="{{ photos[0].urls.small }}" />
+  <img id="image2" src="{{ photos[1].urls.small }}" />
+
+  <img id="result" />
 </div>
