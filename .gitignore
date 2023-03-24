@@ -438,3 +438,5 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+**/environment.ts
