@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from 'src/environment';
 import { createApi } from 'unsplash-js';
 import { Random } from 'unsplash-js/dist/methods/photos/types';
 
@@ -13,7 +14,7 @@ export class ImageViewerComponent implements  OnInit {
   photos: Random[] = [{urls:{small:""}} as Random, {urls:{small:""}} as Random];
   result: string = '';
   unsplash = createApi({
-    accessKey: 'tgikrpUprzc79ynmrCWe38qzTblYH63k2JPhqENuJUg',
+    accessKey: environment.unsplashAccessKey,
   });
   isGrayed: boolean = false;
   isCompared: boolean = false;
