@@ -26,6 +26,15 @@
     </button>
   </div>
   <div>
+    <button
+      class="tool"
+      mat-raised-button
+      (click)="chooseFromCloudModal('25ms', '25ms')"
+    >
+      <mat-icon>cloud</mat-icon> Choose from cloud
+    </button>
+  </div>
+  <div>
     <button class="tool" mat-raised-button (click)="swap()">
       <mat-icon>compare_arrows</mat-icon> Swap
     </button>
@@ -65,6 +74,9 @@
       (click)="save()"
     >
       <mat-icon>save</mat-icon> Save
+    </button>
+    <button class="tool" mat-raised-button (click)="results('25ms', '25ms')">
+      <mat-icon>reorder</mat-icon> Results
     </button>
   </div>
 </div>

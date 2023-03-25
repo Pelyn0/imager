@@ -2,13 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environment';
 import { createApi } from 'unsplash-js';
 import { Random } from 'unsplash-js/dist/methods/photos/types';
+import { BlobServiceClient } from "@azure/storage-blob";
+import { MatDialog } from '@angular/material/dialog';
+import { ChooseFromCloudModalComponent } from '../choose-from-cloud-modal/choose-from-cloud-modal.component';
+import { ResultsInCloudModalComponent } from '../results-in-cloud-modal/results-in-cloud-modal.component';
 
 @Component({
   selector: 'image-viewer',
   templateUrl: './image-viewer.component.html',
   styleUrls: ['./image-viewer.component.css']
 })
-export class ImageViewerComponent implements  OnInit {
+export class ImageViewerComponent implements OnInit {
   searchText: string = "";
   admission: number = 50;
   photos: Random[] = [{urls:{small:""}} as Random, {urls:{small:""}} as Random];
@@ -18,6 +22,9 @@ export class ImageViewerComponent implements  OnInit {
   });
   isGrayed: boolean = false;
   isCompared: boolean = false;
+  blobServiceClient = new BlobServiceClient(environment.blobContainerSasUrl);
+
+  constructor(public dialog: MatDialog) {}
 
   ngOnInit(): void {
   }
@@ -78,18 +85,60 @@ export class ImageViewerComponent implements  OnInit {
     const file = $event.target!.files![0];
     
     const reader = new FileReader();
-    reader.onload = () => this.photos[number-1]!.urls.small = reader.result as string;
+    reader.onload = async () => {
+      this.photos[number-1]!.urls.small = reader.result as string;
+      
+      const containerClient = this.blobServiceClient.getContainerClient('imager');
+      const content = reader.result as string;
+      const blobName = "newblob" + new Date().getTime();
+      const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+      await blockBlobClient.upload(content, content.length);
+    }
     
     if (file) {
       reader.readAsDataURL(file);
     }
   }
 
-  save(){
+  async save(){
     var link = document.createElement('a');
     link.download = 'Imager_ComparisonResult.png';
     link.href = (document.querySelector(`#result-image`) as HTMLCanvasElement).toDataURL();
     link.click();
+
+    const containerClient = this.blobServiceClient.getContainerClient('results');
+    const content = link.href;
+    const blobName = "newblob" + new Date().getTime();
+    const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+    await blockBlobClient.upload(content, content.length);
+  }
+
+  chooseFromCloudModal(enterAnimationDuration: string, exitAnimationDuration: string){
+    const modal = this.dialog.open(ChooseFromCloudModalComponent, {
+      width: '75vw',
+      enterAnimationDuration,
+      exitAnimationDuration,
+    });
+
+    modal.afterClosed().subscribe(result => {
+      if (result){
+        if (result[0] && result[0] !== ''){
+          this.photos[0]!.urls.small = result[0];
+        }
+        
+        if (result[1] && result[1] !== ''){
+          this.photos[1]!.urls.small = result[1];
+        }
+      }
+    });
+  }
+
+  results(enterAnimationDuration: string, exitAnimationDuration: string){
+    this.dialog.open(ResultsInCloudModalComponent, {
+      width: '75vw',
+      enterAnimationDuration,
+      exitAnimationDuration
+    });
   }
 
   private grayScale(imageData: ImageData) {

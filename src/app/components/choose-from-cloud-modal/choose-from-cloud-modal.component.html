@@ -1,0 +1,18 @@
+<h1 mat-dialog-title>Choose one of the images:</h1>
+<div mat-dialog-content class="choose-image">
+  <div *ngFor="let photo of blobPhotos" class="image-container">
+    <img src="{{ photo }}" />
+    <div class="tools">
+      <button mat-raised-button (click)="choose(1, photo)">
+        <mat-icon>subdirectory_arrow_left</mat-icon> First
+      </button>
+      <button mat-raised-button (click)="choose(2, photo)">
+        <mat-icon>subdirectory_arrow_right</mat-icon> Second
+      </button>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions class="actions">
+  <button mat-button (click)="onNoClick()">Revert</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Apply</button>
+</div>

@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>Results:</h1>
+<div mat-dialog-content class="choose-image">
+  <img *ngFor="let photo of blobPhotos" src="{{ photo }}" />
+</div>
+<div mat-dialog-actions class="actions">
+  <button mat-button (click)="onNoClick()">Revert</button>
+  <button mat-button cdkFocusInitial>Apply</button>
+</div>

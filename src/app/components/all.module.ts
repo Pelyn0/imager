@@ -7,11 +7,14 @@ import {MatInputModule} from '@angular/material/input';
 import {MatIconModule} from '@angular/material/icon';
 import { FormsModule } from "@angular/forms";
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatDialogModule} from '@angular/material/dialog';
+import { ChooseFromCloudModalComponent } from "./choose-from-cloud-modal/choose-from-cloud-modal.component";
+import { ResultsInCloudModalComponent } from "./results-in-cloud-modal/results-in-cloud-modal.component";
 
 @NgModule({
-    exports:[ImageViewerComponent],
+    exports:[ImageViewerComponent, ChooseFromCloudModalComponent, ResultsInCloudModalComponent],
     declarations: [
-        ImageViewerComponent
+        ImageViewerComponent, ChooseFromCloudModalComponent, ResultsInCloudModalComponent
     ],
     imports: [
       BrowserModule,
@@ -20,7 +23,8 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
       MatInputModule,
       MatIconModule,
       FormsModule,
-      MatSlideToggleModule
+      MatSlideToggleModule,
+      MatDialogModule
     ],
   })
   export class AllModule { }
