@@ -13,6 +13,8 @@
   </div>
 </div>
 <div mat-dialog-actions class="actions">
-  <button mat-button (click)="onNoClick()">Revert</button>
-  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Apply</button>
+  <button mat-raised-button (click)="onNoClick()">Revert</button>
+  <button mat-raised-button [mat-dialog-close]="data" cdkFocusInitial>
+    Apply
+  </button>
 </div>
