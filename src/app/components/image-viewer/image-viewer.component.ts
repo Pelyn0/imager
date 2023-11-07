@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ChooseFromCloudModalComponent } from '../choose-from-cloud-modal/choose-from-cloud-modal.component';
 import { kmeans } from 'ml-kmeans';
 import { ResultsInCloudModalComponent } from '../results-in-cloud-modal/results-in-cloud-modal.component';
+import { KMeansResult } from 'ml-kmeans/lib/KMeansResult';
 
 @Component({
   selector: 'image-viewer',
@@ -307,15 +308,30 @@ export class ImageViewerComponent implements OnInit {
       ]);
     }
 
-    const clusteringResult = kmeans(pixels1, this.clusters, {
-      maxIterations: this.iterations,
-      seed: 13,
-    });
+    let clusteringResult;
+    do {
+      clusteringResult = kmeans(pixels1, this.clusters, {
+        maxIterations: this.iterations,
+        seed: 13,
+      });
 
-    const clusteringResult2 = kmeans(pixels2, this.clusters, {
-      maxIterations: this.iterations,
-      seed: 13,
-    });
+      this.iterations = clusteringResult.converged
+        ? this.iterations
+        : this.iterations + 1;
+    } while (!clusteringResult || !clusteringResult.converged);
+
+    let clusteringResult2;
+
+    do {
+      clusteringResult2 = kmeans(pixels2, this.clusters, {
+        maxIterations: this.iterations,
+        seed: 13,
+      });
+
+      this.iterations = clusteringResult2.converged
+        ? this.iterations
+        : this.iterations + 1;
+    } while (!clusteringResult2 || !clusteringResult2.converged);
 
     const clusters1 = clusteringResult.clusters;
     const clusters2 = clusteringResult2.clusters;
