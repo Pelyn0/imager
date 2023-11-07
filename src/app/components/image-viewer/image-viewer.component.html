@@ -34,22 +34,36 @@
       <mat-icon>cloud</mat-icon> Choose from cloud
     </button>
   </div>
+
   <div>
-    <button class="tool" mat-raised-button (click)="swap()">
-      <mat-icon>compare_arrows</mat-icon> Swap
-    </button>
-    <mat-slide-toggle
-      [checked]="isGrayed"
-      (change)="isGrayed = !isGrayed"
-      color="primary"
-      >Gray images</mat-slide-toggle
+    <button
+      class="tool"
+      mat-raised-button
+      [disabled]="isCompared ? false : true"
+      (click)="save()"
     >
+      <mat-icon>save</mat-icon> Save
+    </button>
+    <button class="tool" mat-raised-button (click)="results('25ms', '25ms')">
+      <mat-icon>reorder</mat-icon> Results
+    </button>
   </div>
   <div class="random-images">
     <mat-form-field class="search tool">
       <mat-label>Admission</mat-label>
       <input matInput type="number" max="100" min="0" [(ngModel)]="admission" />
     </mat-form-field>
+
+    <mat-form-field class="search tool">
+      <mat-label>K</mat-label>
+      <input matInput type="number" min="1" [(ngModel)]="clusters" />
+    </mat-form-field>
+    <div hidden="true">
+      <mat-form-field class="search tool">
+        <mat-label>iterations</mat-label>
+        <input matInput type="number" min="0" [(ngModel)]="iterations" />
+      </mat-form-field>
+    </div>
     <button
       class="tool"
       [disabled]="
@@ -65,19 +79,33 @@
     >
       <mat-icon>compare</mat-icon> Compare
     </button>
-  </div>
-  <div>
+
     <button
       class="tool"
+      [disabled]="
+        admission > 100 ||
+        admission < 0 ||
+        !photos[0].urls.small ||
+        !photos[1].urls.small
+          ? true
+          : false
+      "
       mat-raised-button
-      [disabled]="isCompared ? false : true"
-      (click)="save()"
+      (click)="compareKmeans()"
     >
-      <mat-icon>save</mat-icon> Save
+      <mat-icon>compare</mat-icon> Compare Kmeans
     </button>
-    <button class="tool" mat-raised-button (click)="results('25ms', '25ms')">
-      <mat-icon>reorder</mat-icon> Results
+  </div>
+  <div>
+    <button class="tool" mat-raised-button (click)="swap()">
+      <mat-icon>compare_arrows</mat-icon> Swap
     </button>
+    <mat-slide-toggle
+      [checked]="isGrayed"
+      (change)="isGrayed = !isGrayed"
+      color="primary"
+      >Gray images</mat-slide-toggle
+    >
   </div>
 </div>
 
@@ -107,4 +135,10 @@
   />
   <div id="result"></div>
   <!--<img id="result" src="{{ result }}" />-->
+</div>
+
+<div>
+  <a href="https://github.com/Pelyn0/imager">
+    <button mat-raised-button>Source code</button>
+  </a>
 </div>
