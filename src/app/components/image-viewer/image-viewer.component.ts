@@ -7,7 +7,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { ChooseFromCloudModalComponent } from '../choose-from-cloud-modal/choose-from-cloud-modal.component';
 import { kmeans } from 'ml-kmeans';
 import { ResultsInCloudModalComponent } from '../results-in-cloud-modal/results-in-cloud-modal.component';
-import { KMeansResult } from 'ml-kmeans/lib/KMeansResult';
 
 @Component({
   selector: 'image-viewer',
